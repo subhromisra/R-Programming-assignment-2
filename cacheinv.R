@@ -5,7 +5,19 @@ cacheSolve <- function(x, ...) {
     return(m)
   }
   data <- x$get()
-  m <- solve(data, LINPACK = TRUE, ...)
-  x$setinv(m)
-  m
+  if(nrow(data) == ncol(data)){
+    if(det(data) == 0){
+      message("Non Invertible Matrix")
+      return(NA)
+    }
+    else{
+      m <- solve(data, LINPACK = TRUE, ...)
+      x$setinv(m)
+      m
+    }
+  }
+  else{
+    message("Not a square matrix")
+    return(NA)
+  }
 }
